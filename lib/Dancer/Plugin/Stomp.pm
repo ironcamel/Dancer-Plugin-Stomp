@@ -2,7 +2,7 @@ package Dancer::Plugin::Stomp;
 use strict;
 use warnings;
 use Dancer::Plugin;
-use Net::Stomp;
+use Net::STOMP::Client;
 
 # VERSION
 
@@ -27,7 +27,7 @@ register stomp => sub {
     my $port = 61613;
     $port = $params->{port} if exists $params->{port};
 
-    my $stomp = Net::Stomp->new({ hostname => $hostname, port => $port });
+    my $stomp = Net::STOMP::Client->new( host => $hostname, port => $port );
 
     my $auto_connect = 1;
     $auto_connect = $params->{auto_connect} if exists $params->{auto_connect};
@@ -37,7 +37,7 @@ register stomp => sub {
         $conn_info{login} = $params->{login} if exists $params->{login};
         $conn_info{passcode} = $params->{passcode}
             if exists $params->{passcode};
-        $stomp->connect(\%conn_info);
+        $stomp->connect(%conn_info);
     }
 
     return $stomps{$name} = $stomp;
@@ -53,7 +53,7 @@ register_plugin;
     use Dancer::Plugin::Stomp;
 
     post '/messages' => sub {
-        stomp->send({ destination => '/queue/foo', body => request->body });
+        stomp->send( destination => '/queue/foo', body => request->body );
     };
 
     dance;
@@ -75,7 +75,7 @@ Configuration requires a hostname at a minimum.
 
 The above configuration will allow you to send a message very simply:
 
-    stomp->send({ destination => '/queue/foo', body => 'hello' });
+    stomp->send( destination => '/queue/foo', body => 'hello' );
 
 Multiple Stomp clients can also be configured:
 
