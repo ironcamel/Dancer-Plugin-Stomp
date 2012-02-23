@@ -21,7 +21,7 @@ register stomp => sub {
     my $params = $config->{$name}
         or die "The Stomp client '$name' is not configured";
 
-    my $host = $params->{host} || $params->{hostname};
+    my $host = $params->{host} || $params->{hostname}
         or die "The Stomp server host is missing";
 
     my $port = 61613;

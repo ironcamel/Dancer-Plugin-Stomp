@@ -1,5 +1,8 @@
 Revision history for Dancer-Plugin-Stomp
 
+1.0001  2012-02-22
+        Fixing a syntax error.
+
 1.0000  2012-02-22
         Switched from Net::Stomp to Net::STOMP::Client.
 
