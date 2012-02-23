@@ -21,13 +21,13 @@ register stomp => sub {
     my $params = $config->{$name}
         or die "The Stomp client '$name' is not configured";
 
-    my $hostname = $params->{hostname}
-        or die "The Stomp server hostname is missing";
+    my $host = $params->{host} || $params->{hostname};
+        or die "The Stomp server host is missing";
 
     my $port = 61613;
     $port = $params->{port} if exists $params->{port};
 
-    my $stomp = Net::STOMP::Client->new( host => $hostname, port => $port );
+    my $stomp = Net::STOMP::Client->new( host => $host, port => $port );
 
     my $auto_connect = 1;
     $auto_connect = $params->{auto_connect} if exists $params->{auto_connect};
@@ -45,7 +45,7 @@ register stomp => sub {
 
 register_plugin;
 
-# ABSTRACT: A Dancer plugin for talking to Stomp message brokers.
+# ABSTRACT: A Dancer plugin for talking to STOMP message brokers.
 
 =head1 SYNOPSIS
 
@@ -53,38 +53,38 @@ register_plugin;
     use Dancer::Plugin::Stomp;
 
     post '/messages' => sub {
-        stomp->send( destination => '/queue/foo', body => request->body );
+        stomp->send(destination => '/queue/foo', body => request->body);
     };
 
     dance;
 
 =head1 DESCRIPTION
 
-This module aims to make it as easy as possible to interact with a Stomp
+This module aims to make it as easy as possible to interact with a STOMP
 message broker. It provides one new keyword, stomp, which returns a
-Net::Stomp object.
+L<Net::STOMP::Client> object.
 
 =head1 CONFIGURATION
 
-Configuration requires a hostname at a minimum.
+Configuration requires a host at a minimum.
 
     plugins:
       Stomp:
-        foo:
-          hostname: foo.com
+        default:
+          host: foo.com
 
 The above configuration will allow you to send a message very simply:
 
-    stomp->send( destination => '/queue/foo', body => 'hello' );
+    stomp->send(destination => '/queue/foo', body => 'hello');
 
-Multiple Stomp clients can also be configured:
+Multiple clients can also be configured:
 
     plugins:
       Stomp:
-        foo:
-          hostname: foo.com
+        default:
+          host: foo.com
         bar:
-          hostname: bar.com
+          host: bar.com
           port: 61613
           login: bob
           passcode: secret
@@ -93,14 +93,14 @@ Multiple Stomp clients can also be configured:
 
 To distinguish between multiple stomp clients, you call stomp with a name:
 
-    stomp('foo')->send( ... );
+    stomp('default')->send( ... );
     stomp('bar')->send( ... );
 
-The available configuration options for a given Stomp client are:
+The available configuration options for a client are:
 
 =over
 
-=item hostname - Required
+=item host - Required
 
 =item port - Optional, Default: 61613
 
@@ -114,7 +114,7 @@ The available configuration options for a given Stomp client are:
 
 =head1 SEE ALSO
 
-L<Net::Stomp>, L<POE::Component::MessageQueue>
+L<Net::STOMP::Client>, L<POE::Component::MessageQueue>
 
 =cut
 
