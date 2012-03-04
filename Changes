@@ -1,5 +1,8 @@
 Revision history for Dancer-Plugin-Stomp
 
+1.0100  2012-03-04
+        Added stomp_send keyword.
+
 1.0001  2012-02-22
         Fixing a syntax error.
 
