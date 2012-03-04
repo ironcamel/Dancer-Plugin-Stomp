@@ -7,7 +7,6 @@ use Net::STOMP::Client;
 
 # VERSION
 
-memoize 'get_stomp_client';
 memoize '_params';
 
 sub get_stomp_client {
@@ -94,9 +93,10 @@ Doing this
 
 is the same as:
 
-    stomp->connect(login => $login, passcode => $passcode);
-    stomp->send(destination => '/queue/foo', body => 'hello');
-    stomp->disconnect();
+    my $stomp = stomp();
+    $stomp->connect(login => $login, passcode => $passcode);
+    $stomp->send(destination => '/queue/foo', body => 'hello');
+    $stomp->disconnect();
 
 If you have multiple clients configured, you can distinguish between them
 by providing the name of the client as the first argument, followed by

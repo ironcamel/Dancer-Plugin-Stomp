@@ -1,5 +1,10 @@
 Revision history for Dancer-Plugin-Stomp
 
+1.0101  2012-03-04
+        Net::STOMP::Client does support calling connect more than once on
+        the same client, even if we have disconnected. So we're no longer
+        caching clients in memory.
+
 1.0100  2012-03-04
         Added stomp_send keyword.
 
