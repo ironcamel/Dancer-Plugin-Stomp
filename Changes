@@ -1,5 +1,8 @@
 Revision history for Dancer-Plugin-Stomp
 
+1.0200  2012-11-02
+        Switching back to Net::Stomp.
+
 1.0101  2012-03-04
         Net::STOMP::Client does support calling connect more than once on
         the same client, even if we have disconnected. So we're no longer

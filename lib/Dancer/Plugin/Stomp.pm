@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Dancer::Plugin;
 use Memoize;
-use Net::STOMP::Client;
+use Net::Stomp;
 
 # VERSION
 
@@ -15,7 +15,7 @@ sub get_stomp_client {
     my $host = $params{host} || $params{hostname}
         or die "The Stomp server host is missing";
     my $port = $params{port} || 61613;
-    my $stomp = Net::STOMP::Client->new(host => $host, port => $port);
+    my $stomp = Net::Stomp->new({ hostname => $host, port => $port });
     return $stomp;
 };
 
@@ -33,8 +33,8 @@ sub stomp_send {
     my %conn_info;
     $conn_info{login} = $params{login} if exists $params{login};
     $conn_info{passcode} = $params{passcode} if exists $params{passcode};
-    $stomp->connect(%conn_info);
-    $stomp->send(%$data);
+    $stomp->connect(\%conn_info);
+    $stomp->send($data);
     $stomp->disconnect();
 }
 
@@ -109,7 +109,7 @@ the data as the second argument:
     my $stomp = stomp
     my $stomp = stomp $name
 
-This simply returns a L<Net::STOMP::Client> object.
+This simply returns a L<Net::Stomp> object.
 You are responsible for connecting and disconnecting.
 When no arguments are given, it returns a handle to the default configured
 client.
@@ -156,7 +156,7 @@ It can be an ip address or a hostname.
 
 =head1 SEE ALSO
 
-L<Net::STOMP::Client>, L<POE::Component::MessageQueue>,
+L<Net::Stomp>, L<POE::Component::MessageQueue>,
 L<http://stomp.github.com> 
 
 =cut

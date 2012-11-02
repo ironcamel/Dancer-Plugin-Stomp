@@ -1,7 +1,0 @@
-=head1 INSTALLATION
-
-    sudo cpan Dancer::Plugin::Stomp
-
-=head1 DOCUMENTATION
-
-see L<Dancer::Plugin::Stomp>
