@@ -15,7 +15,9 @@ sub get_stomp_client {
     my $host = $params{host} || $params{hostname}
         or die "The Stomp server host is missing";
     my $port = $params{port} || 61613;
-    my $stomp = Net::Stomp->new({ hostname => $host, port => $port });
+    my $stomp = $params{hosts}
+        ? Net::Stomp->new({ hosts => $params{hosts}})
+        : Net::Stomp->new({ hostname => $host, port => $port });
     return $stomp;
 };
 
