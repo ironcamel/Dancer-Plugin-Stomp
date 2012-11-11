@@ -12,10 +12,13 @@ memoize '_params';
 sub get_stomp_client {
     my ($name) = @_;
     my %params = _params($name);
-    my $host = $params{host} || $params{hostname}
-        or die "The Stomp server host is missing";
+    my $host = $params{host} || $params{hostname};
     my $port = $params{port} || 61613;
-    my $stomp = Net::Stomp->new({ hostname => $host, port => $port });
+    my $hosts = $params{hosts};
+    die "Stomp server host or hosts is required" unless $host or $hosts;
+    my $stomp = $hosts
+        ? Net::Stomp->new({ hosts => $hosts })
+        : Net::Stomp->new({ host  => $host, port => $port });
     return $stomp;
 };
 
@@ -123,41 +126,66 @@ The following example defines one client named C<default>.
     plugins:
       Stomp:
         default:
-          host: foo.com
+          hostname: foo.com
+          port: 61613
 
 Multiple clients can also be configured:
 
     plugins:
       Stomp:
         default:
-          host: foo.com
+          hostname: foo.com
+          port: 61613
         bar:
-          host: bar.com
+          hostname: bar.com
           port: 61613
           login: bob
           passcode: secret
+
+Failover hosts are supported:
+
+    plugins:
+      Stomp:
+        default:
+          hosts:
+            -
+              hostname: foo.com
+              port: 61613
+            -
+              hostname: bar.com
+              port: 61613
 
 The available configuration options for a client are:
 
 =over
 
-=item host - Required
+=item hostname
 
 This is the location of the STOMP server.
 It can be an ip address or a hostname.
+Either hostname or hosts is required.
 
-=item port - Optional, Default: 61613
+=item hosts
 
-=item login - Optional
+This is to support failover hosts as documented in L<Net::Stomp>.
+In Perl terms, it should be an arrayref of hashrefs,
+each of which contains at least a hostname and a port.
+Either hostname or hosts is required.
 
-=item passcode - Optional
+=item port
+
+=item login
+
+=item passcode
 
 =back
 
 =head1 SEE ALSO
-
-L<Net::Stomp>, L<POE::Component::MessageQueue>,
-L<http://stomp.github.com> 
+=over
+=item L<Net::Stomp>
+=item L<POE::Component::MessageQueue>
+=item L<http://stomp.github.com>
+=back
 
 =cut
 
