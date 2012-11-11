@@ -18,7 +18,7 @@ sub get_stomp_client {
     die "Stomp server host or hosts is required" unless $host or $hosts;
     my $stomp = $hosts
         ? Net::Stomp->new({ hosts => $hosts })
-        : Net::Stomp->new({ host  => $host, port => $port });
+        : Net::Stomp->new({ hostname => $host, port => $port });
     return $stomp;
 };
 
