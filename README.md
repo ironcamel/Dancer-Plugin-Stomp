@@ -1,6 +1,6 @@
 # About
 
-    A Dancer plugin for talking to STOMP message brokers.
+    A Dancer plugin for messaging using STOMP based message queues.
 
 # Installation
 

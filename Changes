@@ -1,5 +1,8 @@
 Revision history for Dancer-Plugin-Stomp
 
+1.0300  2012-11-02
+        Added support for Net::Stomp failover hosts.
+
 1.0200  2012-11-02
         Switching back to Net::Stomp.
 

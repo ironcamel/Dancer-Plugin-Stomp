@@ -58,7 +58,7 @@ register stomp => \&get_stomp_client;
 register stomp_send => \&stomp_send;
 register_plugin;
 
-# ABSTRACT: A Dancer plugin for talking to STOMP message brokers.
+# ABSTRACT: A Dancer plugin for messaging using STOMP based message queues.
 
 =head1 SYNOPSIS
 
