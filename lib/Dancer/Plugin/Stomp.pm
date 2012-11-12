@@ -181,10 +181,15 @@ Either hostname or hosts is required.
 =back
 
 =head1 SEE ALSO
+
 =over
+
 =item L<Net::Stomp>
+
 =item L<POE::Component::MessageQueue>
+
 =item L<http://stomp.github.com>
+
 =back
 
 =cut

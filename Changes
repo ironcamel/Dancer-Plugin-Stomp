@@ -1,5 +1,8 @@
 Revision history for Dancer-Plugin-Stomp
 
+1.0302  2012-11-12
+        Fixed POD formatting.
+
 1.0301  2012-11-11
         Fixed a critical syntax error.
 
